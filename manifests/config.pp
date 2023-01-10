@@ -29,7 +29,7 @@ class users::config {
       ssh_authorized_key { $key_name:
         ensure => $user_details[ensure],
         user   => $user_name,
-        type   => "ssh-unknown",
+        type   => "ssh-rsa",
         key    => $key_details[key],
       }
     }
