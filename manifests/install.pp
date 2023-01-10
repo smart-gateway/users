@@ -7,13 +7,15 @@
 class users::install {
 
   # Make sure that zsh is installed
-  package { 'zsh':
+  package { 'users package ensures zsh is installed':
+    name   => 'zsh',
     ensure => 'installed',
   }
 
   # Setup the Fish PPA
   apt::ppa  { 'ppa:fish-shell/release-3': }
-  -> package { 'fish':
+  -> package { 'users package ensures fish is installed':
+    name   => 'fish',
     ensure => 'installed',
   }
 
