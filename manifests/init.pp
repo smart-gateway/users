@@ -7,7 +7,7 @@
 class users(
   Boolean $package_manage = true,
   Hash    $package_users = {},
-  Bool    $manage_home = true,
+  Boolean $manage_home = true,
 ) {
 
   # Ensure class declares subordinate classes
