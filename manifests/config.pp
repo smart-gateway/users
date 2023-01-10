@@ -24,7 +24,8 @@ class users::config {
 
     # Create authorized keys for the user
     $user_details[keys].each | $key_name, $key_details | {
-      $type = $key_details[type]
+      notify { "key_name: $key_name": }
+      notify { "key_details: $key_details": }
       ssh_authorized_key { $key_name:
         ensure => $user_details[ensure],
         user   => $user_name,
