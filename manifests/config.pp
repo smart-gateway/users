@@ -20,11 +20,7 @@ class users::config {
           set_sh => true,
         }
 
-        ohmyzsh::theme { $user_name:
-          theme => 'powerlevel10k/powerlevel10k',
-        }
-
-        if $user_details[shell-custom][p10k] == true {
+        ->if $user_details[shell-custom][p10k] == true {
           vcsrepo { "/home/$user_name/.oh-my-zsh/custom/themes/powerlevel10k":
             ensure   => present,
             provider => git,
@@ -32,6 +28,10 @@ class users::config {
             depth    => 1,
             user     => $user_name,
           }
+        }
+
+        ->ohmyzsh::theme { $user_name:
+          theme => 'powerlevel10k/powerlevel10k',
         }
       }
     }
