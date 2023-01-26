@@ -8,9 +8,33 @@ class users::config {
   $::users::package_users.each | $user_name, $user_details | {
     # If managehome is not set then set it to the package default
     $manage_home = $user_details[managehome] == undef ? {
-      true   => $::users::manage_home,
+      true   => $::users::home_manage,
       default => $user_details[managehome]
     }
+
+    # Add zsh customizations if specified
+    if $user_details[shell-custom][p10k] == true {
+      vcsrepo { "/home/$user_name/.oh-my-zsh/custom/themes/powerlevel10k":
+        ensure   => present,
+        provider => git,
+        source   => 'https://github.com/romkatv/powerlevel10k.git',
+        depth    => 1,
+        user     => $user_name,
+      }
+    }
+
+    if $user_details[shell-custom][ohmyzsh] == true {
+      ohmyzsh::install { $user_name:
+        set_sh => true,
+      }
+
+      ohmyzsh::theme { $user_name:
+        theme => 'powerlevel10k/powerlevel10k',
+      }
+    }
+    # [shell-custom]
+    # [shell-custom][p10k]
+    # [shell-custom][ohmyzsh]
 
     # Create user
     user { $user_name:
