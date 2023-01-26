@@ -13,28 +13,27 @@ class users::config {
     }
 
     # Add zsh customizations if specified
-    if $user_details[shell-custom][p10k] == true {
-      vcsrepo { "/home/$user_name/.oh-my-zsh/custom/themes/powerlevel10k":
-        ensure   => present,
-        provider => git,
-        source   => 'https://github.com/romkatv/powerlevel10k.git',
-        depth    => 1,
-        user     => $user_name,
-      }
-    }
-
-    if $user_details[shell-custom][ohmyzsh] == true {
-      ohmyzsh::install { $user_name:
-        set_sh => true,
+    if $user_details[shell-custom] != undef {
+      if $user_details[shell-custom][p10k] == true {
+        vcsrepo { "/home/$user_name/.oh-my-zsh/custom/themes/powerlevel10k":
+          ensure   => present,
+          provider => git,
+          source   => 'https://github.com/romkatv/powerlevel10k.git',
+          depth    => 1,
+          user     => $user_name,
+        }
       }
 
-      ohmyzsh::theme { $user_name:
-        theme => 'powerlevel10k/powerlevel10k',
+      if $user_details[shell-custom][ohmyzsh] == true {
+        ohmyzsh::install { $user_name:
+          set_sh => true,
+        }
+
+        ohmyzsh::theme { $user_name:
+          theme => 'powerlevel10k/powerlevel10k',
+        }
       }
     }
-    # [shell-custom]
-    # [shell-custom][p10k]
-    # [shell-custom][ohmyzsh]
 
     # Create user
     user { $user_name:
