@@ -33,6 +33,22 @@ class users::config {
         ->ohmyzsh::theme { $user_name:
           theme => 'powerlevel10k/powerlevel10k',
         }
+
+        ->vcsrepo { "/home/$user_name/.oh-my-zsh/custom/plugins/zsh-autosuggestions":
+          ensure   => present,
+          provider => git,
+          source   => 'https://github.com/zsh-users/zsh-autosuggestions.git',
+          depth    => 1,
+          user     => $user_name,
+        }
+
+        ->vcsrepo { "/home/$user_name/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting":
+          ensure   => present,
+          provider => git,
+          source   => 'https://github.com/zsh-users/zsh-syntax-highlighting.git',
+          depth    => 1,
+          user     => $user_name,
+        }
       }
     }
 
