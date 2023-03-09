@@ -7,20 +7,9 @@
 class users::install {
 
   # Make sure that zsh is installed
-  if ! defined(Package['zsh']) {
-    package { 'users package ensures zsh is installed':
-      name   => 'zsh',
-      ensure => 'installed',
-    }
-  }
-
+  ensure_packages(['zsh'], { ensure => 'present' })
 
   # Setup the Fish PPA
-  if ! defined(Package['fish']) {
-    apt::ppa  { 'ppa:fish-shell/release-3': }
-    -> package { 'users package ensures fish is installed':
-      name   => 'fish',
-      ensure => 'installed',
-    }
-  }
+  apt::ppa  { 'ppa:fish-shell/release-3': }
+  ensure_packages(['fish'], { ensure => 'present'})
 }
